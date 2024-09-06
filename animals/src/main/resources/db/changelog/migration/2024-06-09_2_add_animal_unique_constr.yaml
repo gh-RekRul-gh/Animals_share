@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ruslanRV
+      changes:
+        - addUniqueConstraint:
+            tableName: animal
+            columnNames: animal_name, owner_name, country, city
+            constraintName: unique_animal

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: animals
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_SERVER:localhost}:5432/animals
+    username: admin
+    password: password
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.yaml

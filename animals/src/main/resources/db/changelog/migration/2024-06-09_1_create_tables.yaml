@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ruslanRV
+      changes:
+        - createSequence:
+            dataType: bigint
+            incrementBy: 1
+            sequenceName: animal_id_seq
+            startValue: 1
+
+        - createTable:
+            tableName: animal
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: animal_type
+                  type: varchar(255)
+              - column:
+                  name: animal_name
+                  type: varchar(255)
+              - column:
+                  name: owner_name
+                  type: varchar(255)
+              - column:
+                  name: country
+                  type: varchar(255)
+              - column:
+                  name: city
+                  type: varchar(255)
+
+      rollback:
+        - dropTable:
+            tableName: animals
