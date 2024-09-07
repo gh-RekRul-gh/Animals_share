@@ -17,10 +17,7 @@ import ru.ruslan.animals.repository.AnimalRepository;
 public class AnimalService {
     private final AnimalRepository animalRepository;
     private final AnimalMapper animalMapper;
-    public static final String ANIMAL_ALREADY_EXISTS_MESSAGE = """
-            This animal was already added
-            This usually means you already added your pet to our database
-            If you are sure you did not - we are sincerely sorry""";
+    public static final String ANIMAL_ALREADY_EXISTS_MESSAGE = "This animal was already added";
 
     private void validateNewAnimal(Animal newAnimal) {
         if (Boolean.TRUE.equals(animalRepository.existsByAnimalNameAndOwnerNameAndCountryAndCity(

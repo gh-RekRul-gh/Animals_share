@@ -8,17 +8,14 @@ import java.util.Locale;
 
 @UtilityClass
 public class AnimalTypeUtil {
-    public static final String WRONG_ANIMAL_TYPE_MESSAGE = """
-            This animal type is not supported
-            Try sending request another request with simplified animal
-            For example:
-            Use "crane" instead of "japanese crane\"""";
+    public static final String WRONG_ANIMAL_TYPE_MESSAGE = "This animal type is not supported: %s";
 
     public AnimalType getAnimalType(String animalTypeString) {
+        String animalTypeUpper = animalTypeString.toUpperCase(Locale.ROOT);
         try {
-            return AnimalType.valueOf(animalTypeString.toUpperCase(Locale.ROOT));
+            return AnimalType.valueOf(animalTypeUpper);
         } catch (IllegalArgumentException exception) {
-            throw new WrongAnimalTypeException(WRONG_ANIMAL_TYPE_MESSAGE);
+            throw new WrongAnimalTypeException(String.format(WRONG_ANIMAL_TYPE_MESSAGE, animalTypeUpper));
         }
     }
 }

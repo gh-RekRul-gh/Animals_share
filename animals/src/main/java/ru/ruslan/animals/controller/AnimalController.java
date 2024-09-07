@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ruslan.animals.dto.request.AnimalPutDto;
@@ -18,8 +19,8 @@ import ru.ruslan.animals.service.AnimalService;
 public class AnimalController {
     private final AnimalService animalService;
 
-    @PutMapping
-    ResponseEntity<ApiResponse<Void>> addAnimal(@Valid AnimalPutDto animalPutDto) {
+    @PostMapping
+    ResponseEntity<ApiResponse<Void>> addAnimal(@Valid @RequestBody AnimalPutDto animalPutDto) {
         animalService.addAnimal(animalPutDto);
         return ResponseEntity.ok(ApiResponse.success());
     }

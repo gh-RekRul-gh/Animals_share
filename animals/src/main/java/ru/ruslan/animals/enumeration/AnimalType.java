@@ -5,7 +5,6 @@ public enum AnimalType {
     CAT,
     BIRD,
     HAMSTER,
-    GUINEA_PIG,
     SNAKE,
     TURTLE,
     FISH,
@@ -24,5 +23,7 @@ public enum AnimalType {
     CAMEL,
     EAGLE,
     CRANE,
-    HUMMINGBIRD
+    HUMMINGBIRD,
+    DUCK,
+    PIG
 }

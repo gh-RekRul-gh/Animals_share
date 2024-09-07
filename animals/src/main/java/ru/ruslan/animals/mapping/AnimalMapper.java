@@ -11,9 +11,7 @@ import ru.ruslan.animals.utility.AnimalTypeUtil;
 @Mapper(config = MapstructConfig.class, imports = AnimalTypeUtil.class)
 public interface AnimalMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "animalType", expression = "java(AnimalTypeUtil.getAnimalType(animalPutDto.animal()))")
-    @Mapping(target = "animalName", source = "name")
-    @Mapping(target = "ownerName", source = "owner")
+    @Mapping(target = "animalType", expression = "java(AnimalTypeUtil.getAnimalType(animalPutDto.animalType()))")
     Animal animalPutDtoToAnimal(AnimalPutDto animalPutDto);
 
     AnimalResponseDto animalToAnimalResponseDto(Animal animal);
