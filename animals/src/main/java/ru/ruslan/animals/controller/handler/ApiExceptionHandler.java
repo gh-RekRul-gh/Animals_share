@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.ruslan.animals.dto.response.ApiError;
 import ru.ruslan.animals.dto.response.ApiResponse;
 import ru.ruslan.animals.exception.AlreadyExistsException;
+import ru.ruslan.animals.exception.EntityNotFoundException;
 import ru.ruslan.animals.exception.WrongAnimalTypeException;
 import ru.ruslan.animals.exception.ZeroEntitiesToGetException;
 
@@ -29,7 +30,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Void>> handleAlreadyExistsException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         log.error(exception.getMessage());
 
         String validationErrors = exception.getBindingResult().getFieldErrors()
@@ -42,7 +43,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(WrongAnimalTypeException.class)
-    public ResponseEntity<ApiResponse<Void>> handleAlreadyExistsException(WrongAnimalTypeException exception) {
+    public ResponseEntity<ApiResponse<Void>> handleWrongAnimalTypeException(WrongAnimalTypeException exception) {
         log.error(exception.getMessage());
         ApiError error = new ApiError(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
         return ResponseEntity
@@ -51,11 +52,20 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(ZeroEntitiesToGetException.class)
-    public ResponseEntity<ApiResponse<Void>> handleAlreadyExistsException(ZeroEntitiesToGetException exception) {
+    public ResponseEntity<ApiResponse<Void>> handleZeroEntitiesToGetException(ZeroEntitiesToGetException exception) {
         log.error(exception.getMessage());
         ApiError error = new ApiError(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.error(error));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleEntityNotFoundException(EntityNotFoundException exception) {
+        log.error(exception.getMessage());
+        ApiError error = new ApiError(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(error));
     }
 }

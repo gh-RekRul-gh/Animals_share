@@ -5,5 +5,5 @@ databaseChangeLog:
       changes:
         - addUniqueConstraint:
             tableName: animal
-            columnNames: animal_name, owner_name, country, city
+            columnNames: animal_type, animal_name, owner_id
             constraintName: unique_animal

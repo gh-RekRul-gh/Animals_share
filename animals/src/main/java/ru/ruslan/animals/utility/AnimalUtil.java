@@ -7,7 +7,7 @@ import ru.ruslan.animals.exception.WrongAnimalTypeException;
 import java.util.Locale;
 
 @UtilityClass
-public class AnimalTypeUtil {
+public class AnimalUtil {
     public static final String WRONG_ANIMAL_TYPE_MESSAGE = "This animal type is not supported: %s";
 
     public AnimalType getAnimalType(String animalTypeString) {
