@@ -19,7 +19,7 @@ import ru.ruslan.animals.service.OwnerService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/owner")
+@RequestMapping("/api/v1/owner")
 public class OwnerController {
     private final OwnerService ownerService;
 

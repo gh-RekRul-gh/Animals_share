@@ -15,7 +15,7 @@ import ru.ruslan.animals.service.AnimalService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/animal")
+@RequestMapping("/api/v1/animal")
 public class AnimalController {
     private final AnimalService animalService;
 
