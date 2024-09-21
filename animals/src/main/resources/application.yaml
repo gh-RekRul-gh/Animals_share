@@ -2,7 +2,7 @@ spring:
   application:
     name: animals
   datasource:
-    url: jdbc:postgresql://${POSTGRES_SERVER:localhost}:5432/animals
+    url: jdbc:postgresql://${POSTGRES_SERVER:localhost}:5432/${POSTGRES_DB:animals_share}
     username: admin
     password: password
     driver-class-name: org.postgresql.Driver

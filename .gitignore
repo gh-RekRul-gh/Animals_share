@@ -34,3 +34,4 @@ build/
 
 **/.gitignore
 !/.gitignore
+**.env
