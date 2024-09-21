@@ -1,7 +1,7 @@
 package ru.ruslan.animals.dto.response;
 
 public record OwnerDto(
-        Long id,
+        long id,
         String email,
         String password,
         String name,

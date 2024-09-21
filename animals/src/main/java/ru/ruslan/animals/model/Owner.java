@@ -20,16 +20,16 @@ import java.util.Set;
 @Table(name = "owner")
 public class Owner extends User {
 
-    @Column(name = "name", length = 50)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "surname", length = 50)
+    @Column(name = "surname")
     private String surname;
 
-    @Column(name = "country", length = 50)
+    @Column(name = "country")
     private String country;
 
-    @Column(name = "city", length = 50)
+    @Column(name = "city")
     private String city;
 
     @OneToMany(mappedBy = "owner")

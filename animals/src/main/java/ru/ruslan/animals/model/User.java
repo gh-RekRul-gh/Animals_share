@@ -15,11 +15,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_id_gen")
     @Column(name = "id")
-    protected Long id;
+    protected long id;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 }

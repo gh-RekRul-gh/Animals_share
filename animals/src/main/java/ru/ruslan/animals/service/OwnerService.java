@@ -20,15 +20,24 @@ public class OwnerService {
     private final OwnerRepository ownerRepository;
     private final OwnerMapper ownerMapper;
 
-    public Owner findByIdOrElseThrow(Long ownerId) {
+    public static final String EMAIL_ALREADY_EXISTS_MESSAGE = "Email already exists: %s";
+    public static final String USER_NOT_FOUND_MESSAGE = "User not found with id: %s";
+
+    public Owner findByIdOrElseThrow(long ownerId) {
         return ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + ownerId));
+                .orElseThrow(() -> {
+                    String warnMessage = String.format(USER_NOT_FOUND_MESSAGE, ownerId);
+                    log.warn(warnMessage);
+                    return new EntityNotFoundException(warnMessage);
+                });
     }
 
     public void register(OwnerRegisterDto ownerRegisterDto) {
         String newUserEmail = ownerRegisterDto.email();
-        if (Boolean.TRUE.equals(ownerRepository.existsByEmail(newUserEmail))) {
-            throw new AlreadyExistsException(String.format("Email %s is already taken", newUserEmail));
+        if (ownerRepository.existsByEmail(newUserEmail)) {
+            String warnMessage = String.format(EMAIL_ALREADY_EXISTS_MESSAGE, newUserEmail);
+            log.warn(warnMessage);
+            throw new AlreadyExistsException(warnMessage);
         }
         Owner newOwner = ownerMapper.ownerRegisterDtoToOwner(ownerRegisterDto);
         ownerRepository.save(newOwner);

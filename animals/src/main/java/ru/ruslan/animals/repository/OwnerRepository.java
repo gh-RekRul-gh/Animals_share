@@ -6,5 +6,5 @@ import ru.ruslan.animals.model.Owner;
 
 @Repository
 public interface OwnerRepository extends CrudRepository<Owner, Long> {
-    Boolean existsByEmail(String email);
+    boolean existsByEmail(String email);
 }

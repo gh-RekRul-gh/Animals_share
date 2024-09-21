@@ -3,7 +3,6 @@ package ru.ruslan.animals.controller.handler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +13,7 @@ import ru.ruslan.animals.exception.EntityNotFoundException;
 import ru.ruslan.animals.exception.WrongAnimalTypeException;
 import ru.ruslan.animals.exception.ZeroEntitiesToGetException;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @ControllerAdvice
 @Log4j2
@@ -22,8 +21,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<ApiResponse<Void>> handleAlreadyExistsException(AlreadyExistsException exception) {
-        log.error(exception.getMessage());
-        ApiError error = new ApiError(exception.getMessage(), HttpStatus.CONFLICT.value());
+        ApiError error = new ApiError(exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(ApiResponse.error(error));
@@ -31,21 +29,20 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        log.error(exception.getMessage());
+        String warnMessage = "Validation failed for with message" + exception.getMessage();
+        log.warn(warnMessage);
 
-        String validationErrors = exception.getBindingResult().getFieldErrors()
-                .stream().map(FieldError::getDefaultMessage)
-                .collect(Collectors.joining("\n"));
-        ApiError error = new ApiError(validationErrors, HttpStatus.BAD_REQUEST.value());
+        List<ApiError> validationErrors = exception.getBindingResult().getFieldErrors()
+                .stream().map(fieldError -> new ApiError(fieldError.getDefaultMessage()))
+                .toList();
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error(error));
+                .body(ApiResponse.error(validationErrors.toArray(new ApiError[0])));
     }
 
     @ExceptionHandler(WrongAnimalTypeException.class)
     public ResponseEntity<ApiResponse<Void>> handleWrongAnimalTypeException(WrongAnimalTypeException exception) {
-        log.error(exception.getMessage());
-        ApiError error = new ApiError(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        ApiError error = new ApiError(exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(error));
@@ -53,8 +50,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(ZeroEntitiesToGetException.class)
     public ResponseEntity<ApiResponse<Void>> handleZeroEntitiesToGetException(ZeroEntitiesToGetException exception) {
-        log.error(exception.getMessage());
-        ApiError error = new ApiError(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        ApiError error = new ApiError(exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.error(error));
@@ -62,8 +58,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleEntityNotFoundException(EntityNotFoundException exception) {
-        log.error(exception.getMessage());
-        ApiError error = new ApiError(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        ApiError error = new ApiError(exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(error));

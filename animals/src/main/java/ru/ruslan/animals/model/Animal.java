@@ -26,14 +26,14 @@ public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_id_gen")
     @SequenceGenerator(name = "animal_id_gen", sequenceName = "animal_id_seq", allocationSize = 1)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "id")
+    private long id;
 
-    @Column(name = "animal_type", nullable = false)
+    @Column(name = "animal_type")
     @Enumerated(EnumType.STRING)
     private AnimalType animalType;
 
-    @Column(name = "animal_name", nullable = false)
+    @Column(name = "animal_name")
     private String animalName;
 
     @ManyToOne(fetch = FetchType.LAZY)

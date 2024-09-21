@@ -1,24 +1,24 @@
 package ru.ruslan.animals.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public record OwnerEditDto(
 
-        @NotNull(message = "Invalid name: Name is null")
-        @NotBlank(message = "Invalid name: Name is empty")
+        @NotEmpty(message = "Invalid name: Name must not be empty")
+        @Size(max = 50, message = "Name size must be less than or equal to 50")
         String name,
 
-        @NotNull(message = "Invalid surname: Surname is null")
-        @NotBlank(message = "Invalid surname: Surname is empty")
+        @NotEmpty(message = "Invalid surname: Surname must not be empty")
+        @Size(max = 50, message = "Surname size must be less than or equal to 50")
         String surname,
 
-        @NotNull(message = "Invalid country: Country is null")
-        @NotBlank(message = "Invalid country: Country is empty")
+        @NotEmpty(message = "Invalid country: Country must not be empty")
+        @Size(max = 50, message = "Country size must be less than or equal to 50")
         String country,
 
-        @NotNull(message = "Invalid city: City is null")
-        @NotBlank(message = "Invalid city: City is empty")
+        @NotEmpty(message = "Invalid city: City must not be empty")
+        @Size(max = 50, message = "City size must be less than or equal to 50")
         String city
 ) {
 }

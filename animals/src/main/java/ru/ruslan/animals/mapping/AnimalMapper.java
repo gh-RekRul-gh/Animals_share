@@ -12,8 +12,8 @@ import ru.ruslan.animals.utility.OwnerUtil;
 
 @Mapper(config = MapstructConfig.class, imports = {AnimalUtil.class, OwnerUtil.class})
 public interface AnimalMapper {
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "animalType", expression = "java(AnimalUtil.getAnimalType(animalPutDto.animalType()))")
+    @Mapping(target = "owner", source = "owner")
     Animal animalPutDtoToAnimal(AnimalPutDto animalPutDto, Owner owner);
 
     @Mapping(target = "ownerName", expression = "java(OwnerUtil.getFullName(animal.getOwner()))")
