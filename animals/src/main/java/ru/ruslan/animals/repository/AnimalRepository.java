@@ -10,8 +10,11 @@ import java.util.Optional;
 
 @Repository
 public interface AnimalRepository extends CrudRepository<Animal, Long> {
-    boolean existsByAnimalTypeAndAnimalNameAndOwnerId(AnimalType animalType, String animaName, Long ownerId);
+    boolean existsByAnimalTypeAndAnimalNameAndOwnerId(AnimalType animalType, String animaName, long ownerId);
 
-    @Query("SELECT animal from Animal animal ORDER BY RANDOM() LIMIT 1")
+    @Query("SELECT a FROM Animal a ORDER BY RANDOM() LIMIT 1")
     Optional<Animal> getRandomAnimal();
+
+    @Query("SELECT a FROM Animal a JOIN FETCH a.owner")
+    Optional<Animal> findByIdWithOwner(long id);
 }

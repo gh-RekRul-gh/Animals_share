@@ -20,17 +20,13 @@ public class AnimalService {
     private final AnimalMapper animalMapper;
     private final OwnerService ownerService;
 
-    public static final String ANIMAL_ALREADY_EXISTS_MESSAGE = "Animal already exists: %s";
-    public static final String RANDOM_ANIMAL_NOT_FOUND =
-            "Could not get any random animal. Probably, there are no animals saved";
-
     private void validateNewAnimal(Animal newAnimal) {
         if (animalRepository.existsByAnimalTypeAndAnimalNameAndOwnerId(
                 newAnimal.getAnimalType(), newAnimal.getAnimalName(), newAnimal.getOwner().getId()
         )) {
-            String warnMessage = String.format(ANIMAL_ALREADY_EXISTS_MESSAGE, newAnimal);
-            log.warn(warnMessage);
-            throw new AlreadyExistsException(warnMessage);
+            String message = String.format("Animal already exists: %s", newAnimal);
+            log.warn(message);
+            throw new AlreadyExistsException(message);
         }
     }
 
@@ -45,9 +41,9 @@ public class AnimalService {
     public AnimalRandomDto getRandom() {
         Animal animalRandom = animalRepository.getRandomAnimal()
                 .orElseThrow(() -> {
-                    String warnMessage = RANDOM_ANIMAL_NOT_FOUND;
-                    log.warn(warnMessage);
-                    return new ZeroEntitiesToGetException(warnMessage);
+                    String message = "Could not get any random animal";
+                    log.error(message);
+                    return new ZeroEntitiesToGetException(message);
                 });
         return animalMapper.animalToAnimalRandomDto(animalRandom);
     }

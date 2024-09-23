@@ -22,8 +22,6 @@ import java.util.List;
 @Log4j2
 public class ApiExceptionHandler {
 
-    public static final String LOG_TWO_FIELDS_FORM = "{}: {}";
-
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<ApiResponse<Void>> handleAlreadyExistsException(AlreadyExistsException exception) {
         ApiError error = new ApiError(exception.getMessage());
@@ -34,29 +32,19 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleNoHandlerFoundException(NoHandlerFoundException exception) {
-        String warnMessage = "Access to not-existing uri";
-        log.warn(LOG_TWO_FIELDS_FORM, warnMessage, exception.getMessage());
-        ApiError error = new ApiError("Resource not found");
+        String errorMessage = String.format("Access to not-existing uri: %s", exception.getMessage());
+        log.warn(errorMessage);
+        ApiError error = new ApiError(errorMessage);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(error));
     }
 
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
-        String message = "The IDENTIFIER entered is invalid, as it should contain only number";
-        log.warn(LOG_TWO_FIELDS_FORM, message, exception.getMessage());
-        ApiError error = new ApiError(message);
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error(error));
-    }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiResponse<Void>> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
-        String message = "The JSON that was passed is invalid";
-        log.warn(LOG_TWO_FIELDS_FORM, message, exception.getMessage());
-        ApiError error = new ApiError(message);
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
+    public ResponseEntity<ApiResponse<Void>> handleClientError(Exception exception) {
+        String errorMessage = String.format("Client error: %s", exception.getMessage());
+        log.warn(errorMessage);
+        ApiError error = new ApiError(errorMessage);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(error));
@@ -87,7 +75,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleZeroEntitiesToGetException(ZeroEntitiesToGetException exception) {
         ApiError error = new ApiError(exception.getMessage());
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(error));
     }
 
@@ -98,4 +86,14 @@ public class ApiExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(error));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleException(Exception exception) {
+        log.error("Internal Server Error", exception);
+        ApiError error = new ApiError(exception.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.error(error));
+    }
+
 }
