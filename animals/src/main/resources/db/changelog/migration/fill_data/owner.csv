@@ -1,0 +1,4 @@
+email,password,name,surname,country,city
+alice@yandex.ru,password,Alice,Smith,England,London
+bob@yandex.ru,password,Bob,Black,USA,New York
+kirill@yandex.ru,password,Kirill,Malakhov,Russia,Moscow

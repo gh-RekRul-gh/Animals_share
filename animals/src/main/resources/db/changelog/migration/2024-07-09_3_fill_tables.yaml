@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ruslanRV
+      changes:
+        - loadData:
+            tableName: owner
+            usePreparedStatements: false
+            separator: ','
+            relativeToChangelogFile: true
+            file: fill_data/owner.csv
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: email
+                  name: email
+                  type: STRING
+              - column:
+                  header: password
+                  name: password
+                  type: STRING
+              - column:
+                  header: name
+                  name: name
+                  type: STRING
+              - column:
+                  header: surname
+                  name: surname
+                  type: STRING
+              - column:
+                  header: country
+                  name: country
+                  type: STRING
+              - column:
+                  header: city
+                  name: city
+                  type: STRING
+
+        - loadData:
+            tableName: animal
+            usePreparedStatements: false
+            separator: ','
+            relativeToChangelogFile: true
+            file: fill_data/animal.csv
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: animal_type
+                  name: animal_type
+                  type: STRING
+              - column:
+                  header: animal_name
+                  name: animal_name
+                  type: STRING
+              - column:
+                  header: owner_id
+                  name: owner_id
+                  type: NUMERIC

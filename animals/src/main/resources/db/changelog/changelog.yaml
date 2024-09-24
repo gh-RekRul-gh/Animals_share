@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/migration/2024-06-09_1_create_tables.yaml
   - include:
       file: db/changelog/migration/2024-06-09_2_add_animal_unique_constr.yaml
+  - include:
+      file: db/changelog/migration/2024-07-09_3_fill_tables.yaml

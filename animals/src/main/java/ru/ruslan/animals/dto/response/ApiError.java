@@ -1,10 +1,11 @@
 package ru.ruslan.animals.dto.response;
 
+import ru.ruslan.animals.exception.ApiException;
+
 public record ApiError(
-        String message,
-        Integer code
+        String message
 ) {
     public ApiError(ApiException exception) {
-        this(exception.getMessage(), exception.getErrorCode());
+        this(exception.getMessage());
     }
 }
